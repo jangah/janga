@@ -1,8 +1,7 @@
 PROJECT = janga
 DIALYZER = dialyzer
 REBAR = rebar
-REPO = ../../../../repository
-REPOSRC = ../../repository
+REPOSRC = ../janga_repo
 TARGET = ~/projects/erlang
 DATE = `date +%Y-%m-%d`
 CRASH_DIR = ../../crasher
@@ -12,10 +11,7 @@ CRASH_DIR = ../../crasher
 all: app
 
 tar: app 
-	cd rel; tar cvf $(REPO)/$(PROJECT).$(VERSION).tar $(PROJECT)
-
-tarall: app 
-	cd ..; tar cf $(REPOSRC)/$(PROJECT).src.$(VERSION).tar $(PROJECT) --exclude log/* --exclude apps/horst/priv/config --exclude deps/gpio/priv/gpio_drv.so --exclude deps/syslog/priv/syslog_drv.so --exclude apps/roni/priv/config/accounts.conf --exclude data --exclude .git
+	cd ..; tar --exclude=$(PROJECT)/log/* --exclude=$(PROJECT)/data --exclude=$(PROJECT)/.git --exclude=$(PROJECT)/etc/* --exclude=$(PROJECT)/deps/*/.git -cvf $(REPOSRC)/$(PROJECT).src.$(VERSION).tar $(PROJECT)
 
 cpall: tarall
 	cd ..;scp $(REPOSRC)/$(PROJECT).src.$(VERSION).tar $(USR)@$(HOST):$(TARGET)
@@ -23,12 +19,6 @@ cpall: tarall
 
 cp: tar
 	 cd ..;scp $(REPOSRC)/$(PROJECT).$(VERSION).tar $(USR)@$(HOST):$(TARGET)
-
-release: clean-release all
-	relx -o $(REPO)/$(PROJECT)
- 
-clean-release: clean-projects
-	rm -rf $(REPO)/$(PROJECT)
 
 app: deps
 	@$(REBAR) compile
@@ -50,9 +40,6 @@ eunit:
 
 docs:
 	@$(REBAR) doc skip_deps=true
-
-rcswitch:
-	$(MAKE) -C apps/horst/priv/driver/remote send
 
 cp_crash: 
 	mkdir -p $(CRASH_DIR)/$(HOST)/$(DATE)
