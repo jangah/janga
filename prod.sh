@@ -1,3 +1,3 @@
 #!/bin/sh
 mkdir -p log
-erl -sname erlything -setcookie nocookie -pa $PWD/apps/*/ebin $PWD/deps/*/ebin -boot start_sasl -mnesia dir data -s erlything -config etc/app.config -detached
+erl -sname jangah -setcookie nocookie -pa $PWD/apps/*/ebin $PWD/deps/*/ebin  -pz $PWD/japps/*/deps/*/ebin $PWD/japps/*/ebin -boot start_sasl -s janga_core -s observer -s reloader -config etc/app.config -detached
