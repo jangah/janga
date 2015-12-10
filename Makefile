@@ -2,7 +2,7 @@ PROJECT = janga
 DIALYZER = dialyzer
 REBAR = rebar
 REPOSRC = ../janga_repo
-TARGET = ~/tmp
+TARGET = ~/projects/erlang
 DATE = `date +%Y-%m-%d`
 CRASH_DIR = ../../crasher
 
@@ -11,14 +11,14 @@ CRASH_DIR = ../../crasher
 all: app
 
 tar: app 
-	cd ..; tar --exclude=$(PROJECT)/Mnesia* --exclude=$(PROJECT)/www/static/preview/* --exclude=$(PROJECT)/log/* --exclude=$(PROJECT)/data --exclude=$(PROJECT)/.git --exclude=$(PROJECT)/etc/* --exclude=$(PROJECT)/japps/* --exclude=$(PROJECT)/deps/*/.git --exclude=$(PROJECT)/deps/*/src/* --exclude=$(PROJECT)/deps/*/test/* -cvf $(REPOSRC)/$(PROJECT).$(VERSION).tar $(PROJECT)
+	cd ..; tar --exclude=$(PROJECT)/log/* --exclude=$(PROJECT)/data --exclude=$(PROJECT)/.git --exclude=$(PROJECT)/etc/* --exclude=$(PROJECT)/deps/*/.git -cvf $(REPOSRC)/$(PROJECT).src.$(VERSION).tar $(PROJECT)
 
 cpall: tarall
 	cd ..;scp $(REPOSRC)/$(PROJECT).src.$(VERSION).tar $(USR)@$(HOST):$(TARGET)
 	ssh $(USR)@$(HOST) 'cd $(TARGET); tar xf $(TARGET)/$(PROJECT).src.$(VERSION).tar'
 
 cp: tar
-	 cd ..;scp $(REPOSRC)/$(PROJECT).$(VERSION).tar $(USR)@$(HOST):$(TARGET)/$(PROJECT).$(VERSION).tar
+	 cd ..;scp $(REPOSRC)/$(PROJECT).$(VERSION).tar $(USR)@$(HOST):$(TARGET)
 
 app: deps
 	@$(REBAR) compile
