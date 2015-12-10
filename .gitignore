@@ -14,3 +14,4 @@ doc/*
 etc/app.config
 etc/app1.config
 dev1.sh
+www/static/preview/*
