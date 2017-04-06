@@ -13,5 +13,6 @@ data
 doc/*
 etc/app.config
 etc/app1.config
+etc/dev.config
 www
 priv/certs
