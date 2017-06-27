@@ -29,9 +29,11 @@ deps: git
 git:
 	cd ..;git clone git@gitlab.com:jangah/config.git
 	cd ..;git clone git@gitlab.com:jangah/www.git
-	cd etc;ln -s ../../config/etc/app.config app.config
-	cd etc;ln -s ../../config/etc/dev.config dev.config
+	cd etc;ln -sf ../../config/etc/app.config app.config
+	cd etc;ln -sf ../../config/etc/dev.config dev.config
 	ln -s ../www www
+	# workaround
+	cd deps; git clone git@github.com:benoitc/unicode_util_compat.git
 
 clean:
 	@$(REBAR) clean
