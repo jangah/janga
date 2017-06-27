@@ -23,8 +23,15 @@ cp: tar
 app: deps
 	@$(REBAR) compile
 
-deps:
+deps: git
 	@$(REBAR) get-deps
+
+git:
+	cd ..;git clone git@gitlab.com:jangah/config.git
+	cd ..;git clone git@gitlab.com:jangah/www.git
+	cd etc;ln -s ../../config/etc/app.config app.config
+	cd etc;ln -s ../../config/etc/dev.config dev.config
+	ln -s ../www www
 
 clean:
 	@$(REBAR) clean
