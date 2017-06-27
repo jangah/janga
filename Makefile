@@ -33,7 +33,7 @@ git:
 	cd etc;ln -sf ../../config/etc/dev.config dev.config
 	ln -s ../www www
 	# workaround
-	cd deps; git clone git@github.com:benoitc/unicode_util_compat.git
+	git clone git@github.com:benoitc/unicode_util_compat.git deps/unicode_util_compat
 
 clean:
 	@$(REBAR) clean
