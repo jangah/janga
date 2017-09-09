@@ -5,6 +5,7 @@ REPOSRC = ../janga_repo
 TARGET = ~/tmp
 DATE = `date +%Y-%m-%d`
 CRASH_DIR = ../../crasher
+BACKUP_DIR = ../../jangah_backup
 
 
 
@@ -53,3 +54,12 @@ docs:
 cp_crash: 
 	mkdir -p $(CRASH_DIR)/$(HOST)/$(DATE)
 	scp $(USR)@$(HOST):$(TARGET)/$(PROJECT)/erl_crash.dump $(CRASH_DIR)/$(HOST)/$(DATE)
+
+backup:
+	mkdir -p $(BACKUP_DIR)/$(HOST)/$(DATE)
+	ssh $(USR)@$(HOST) 'cd ~/projects/erlang/janga/japps; tar -cf /tmp/$(HOST)_backup.tar **/priv/config/*'
+	scp $(USR)@$(HOST):/tmp/$(HOST)_backup.tar $(BACKUP_DIR)/$(HOST)/$(DATE)
+	scp $(USR)@$(HOST):~/projects/erlang/janga/etc/app.config $(BACKUP_DIR)/$(HOST)/$(DATE)
+
+
+
